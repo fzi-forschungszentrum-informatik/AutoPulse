@@ -1,0 +1,60 @@
+{
+    "touch_position": [
+        -20.6,
+        -30.7
+    ],
+    "glitch_height": 1,
+    "probe_height": 0,
+    "probe_camera": {
+        "remote_device": "http://localhost:5000",
+        "config": {
+            "calibrated_center": [
+                2388,
+                1188
+            ],
+            "min_focus_distance": 43.0,
+            "crop_upper_edge": [
+                2000,
+                900
+            ],
+            "crop_width": 650,
+            "size_per_pixel_at_focus_distance": 0.0195,
+            "probe_type": 4
+        }
+    },
+    "pcb_camera": {
+        "simple": true,
+        "min_focus_distance": 16.99975,
+        "size_per_pixel_at_focus_distance": 0.019479,
+        "camera_position": [
+            -54.648,
+            0.2
+        ]
+    },
+    "printer": {
+        "endpoint": "http://localhost"
+    },
+    "chipshouter": {
+        "pulse": {
+            "width": 50,
+            "repeat": 1
+        },
+        "voltage": 300,
+        "com_port": "/dev/serial/by-id/usb-NewAE_ChipSHOUTER_Serial_NA50VAL8-if00-port0",
+        "mute": false
+    },
+    "movement_strategy": {
+        "var": 0.2,
+        "center": [
+            0.5,
+            0.5
+        ]
+    },
+    "interface": {
+        "simple_target": true,
+        "run_pin": 2,
+        "fault_pin": 3,
+        "reset_pin": 4,
+        "move_after": 20
+    }
+}

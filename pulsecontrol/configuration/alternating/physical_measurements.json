@@ -1,0 +1,14 @@
+{
+  "description": "Repeatedly move between two fixed positions",
+  "height": 78,
+  "printer": {
+    "endpoint": "http://localhost"
+  },
+  "movement_strategy": {
+    "reset_position": [141.0, 100.0],
+    "target_position": [143.0, 100.0]
+  },
+  "interface": {
+    "selector": "picture_trigger"
+  }
+}

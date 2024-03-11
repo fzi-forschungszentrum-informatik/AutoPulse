@@ -1,0 +1,90 @@
+set dotenv-load := true
+set dotenv-path := ".env"
+projectdir := justfile_directory()
+
+###########
+# Control #
+###########
+
+endpoint := "http://$DOMAIN"
+healthcheck := endpoint / "healthcheck"
+initialize := endpoint / "load" / "integrator"
+start := endpoint / "start"
+continue := endpoint / "continue"
+reset := endpoint / "reset"
+
+init config-name:
+  echo 'Trying to send a config file to the webserver'
+  @curl {{healthcheck}}
+  curl -X POST {{ initialize / file_stem(config-name) }} -d "@{{projectdir / config-name}}" -H "Content-Type: application/json"
+
+start:
+  curl {{start}}
+
+go:
+  just init configuration/spc/bam.json
+  just start
+
+continue:
+  curl {{continue}}
+
+reset:
+  curl {{reset}}
+
+server-start:
+  cd {{projectdir}} && rye run gunicorn -w 1 -b 0.0.0.0:5000 pulsecontrol.main:app
+
+
+########################
+# target communication #
+########################
+connect:
+  picocom -b 14400 --imap 8bithex /dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0 
+
+
+#########################
+# dependency management #
+#########################
+
+export-requirements:
+  poetry export --without-hashes --format=requirements.txt > requirements.txt
+
+install-crossbuild:
+	docker run --privileged --rm tonistiigi/binfmt --install arm64,arm
+
+
+########################
+# Camera and Streaming #
+########################
+
+still-noir:
+	libcamera-still --tuning-file /usr/share/libcamera/ipa/rpi/vc4/imx708_noir.json -o noir.jpg --autofocus-range macro --autofocus-window 0.33,0.33,0.66,0.66
+
+still-normal:
+	libcamera-still --tuning-file /usr/share/libcamera/ipa/rpi/vc4/imx708.json -o autofocus.jpg --autofocus-range macro --autofocus-window 0.33,0.33,0.66,0.66
+
+no-focus:
+	libcamera-still --tuning-file /usr/share/libcamera/ipa/rpi/vc4/imx708.json -o normal.jpg --autofocus-mode manual --lens-position 15
+
+stream cam focus='':
+    if [ ! -z "{{focus}}" ] ; then \
+        libcamera-vid --camera {{cam}} --lens-position {{focus}} -t 0 --width 4608 --height 2592 --codec h264 --inline --listen -o tcp://0.0.0.0:8888; \
+    else \
+        libcamera-vid --camera {{cam}} -t 0 --width 4608 --height 2592 --codec h264 --inline --listen -o tcp://0.0.0.0:8888; \
+    fi
+
+stream-close-focus cam:
+        libcamera-vid --camera {{cam}} --lens-position 99999 -t 0 --width 4608 --height 2592 --codec h264 --inline --listen -o tcp://0.0.0.0:8888
+
+picture cam focus='':
+        mkdir -p pictures
+        if [ ! -z "{{focus}}" ] ; then \
+                libcamera-still --camera {{cam}} --lens-position {{focus}} -t 5 --width 4608 --height 2592 --encoding png -n -o picture.png; \
+        else \
+        libcamera-still --camera {{cam}} -t 5 --width 4608 --height 2592 --encoding png -n -o picture.png; \
+        fi
+        mv --backup=numbered picture.png pictures/picture.png
+
+clean-pictures:
+        mmv -v "pictures/*.*.~*~" "pictures/#1_#3.#2"
+

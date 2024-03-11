@@ -1,0 +1,15 @@
+{
+    "description": "Perform the edge-finding algorithm and move to a fixed position. The mean should tell us something about the quality of the algorithm",
+    "pcb_camera": {
+        "remote_device": "http://localhost:5000",
+        "config": {
+            "rectangle": true,
+            "min_focus_distance": 16.99975,
+            "size_per_pixel_at_focus_distance": 0.019479,
+            "camera_position": [
+                -53.448,
+                -2.593
+            ]
+        }
+    }
+}

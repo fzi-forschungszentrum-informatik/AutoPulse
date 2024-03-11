@@ -1,0 +1,15 @@
+__pycache__
+test/data/dataset/
+logs/
+.idea/
+.venv/
+.ruff_cache/
+
+# Platform specific
+requirements.lock
+requirements-dev.lock
+poetry.lock
+
+# python tools
+.ropeproject/
+/.env

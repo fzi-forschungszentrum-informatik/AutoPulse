@@ -1,0 +1,13 @@
+{
+  "description": "Drive to a point repeatedly, home axis each time",
+  "height": 76,
+  "printer": {
+    "endpoint": "http://localhost"
+  },
+  "movement_strategy": {
+    "target_position": [137.75, 100.0]
+  },
+  "interface": {
+    "selector": "picture_trigger"
+  }
+}

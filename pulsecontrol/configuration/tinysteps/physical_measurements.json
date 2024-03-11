@@ -1,0 +1,20 @@
+{
+  "description": "Test accuracy with relative movement",
+  "height": -5,
+  "printer": {
+    "endpoint": "http://localhost"
+  },
+  "movement_strategy": {
+    "move_back_mode": true,
+    "move_back_position": [
+      65.0,
+      115.0
+    ],
+    "start_position": [70.0, 115.0],
+    "total_movements": 200,
+    "step_size": 0.5
+  },
+  "interface": {
+    "serial_port": "/dev/serial/by-id/usb-Arduino_RaspberryPi_Pico_076461E62F5464E3-if00"
+  }
+}

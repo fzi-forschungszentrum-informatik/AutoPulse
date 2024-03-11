@@ -1,0 +1,17 @@
+{
+  "description": "Step through range of positions, but move back a large amount after each one.",
+  "height": -8,
+  "printer": {
+    "endpoint": "http://localhost"
+  },
+  "movement_strategy": {
+    "start_position": [136.2, 100.0],
+    "end_position": [137.5, 100.0],
+    "step_size": 0.005,
+    "move_back_mode": true,
+    "move_back_position": [130.0, 100.0]
+  },
+  "interface": {
+    "serial_path": "/dev/serial/by-id/usb-Arduino_RaspberryPi_Pico_076461E62F5464E3-if00"
+  }
+}

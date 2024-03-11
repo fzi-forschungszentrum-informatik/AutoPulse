@@ -1,0 +1,39 @@
+services:
+  snapper:
+    build: .
+    restart: always
+#    command: >
+#      python -c 'from picamera2 import Picamera2; p = Picamera2(); p.start_and_capture_file("/out/test.jpg")'
+    #    privileged: true   # surefire way to make the camera work, try out all devices to see if that makes this unncecessary
+    volumes:
+      - ./out:/out
+    devices:
+      # required for GPIO
+      - /dev/gpiomem:/dev/gpiomem
+      - /dev/gpiochip0:/dev/gpiochip0
+      - /dev/gpiochip1:/dev/gpiochip1
+      # required for the Camera
+      - /dev/dma_heap:/dev/dma_heap
+      - /dev/vchiq:/dev/vchiq
+      - /dev/dri:/dev/dri
+      - /dev/media0:/dev/media0
+      - /dev/media1:/dev/media1
+      - /dev/media2:/dev/media2
+      - /dev/media3:/dev/media3
+      - /dev/v4l-subdev0:/dev/v4l-subdev0
+      - /dev/v4l-subdev1:/dev/v4l-subdev1
+      - /dev/video0:/dev/video0
+      - /dev/video1:/dev/video1
+      - /dev/video10:/dev/video10
+      - /dev/video11:/dev/video11
+      - /dev/video12:/dev/video12
+      - /dev/video13:/dev/video13
+      - /dev/video14:/dev/video14
+      - /dev/video15:/dev/video15
+      - /dev/video16:/dev/video16
+      - /dev/video18:/dev/video18
+      - /dev/video20:/dev/video20
+      - /dev/video21:/dev/video21
+      - /dev/video22:/dev/video22
+      - /dev/video23:/dev/video23
+      - /dev/video31:/dev/video31

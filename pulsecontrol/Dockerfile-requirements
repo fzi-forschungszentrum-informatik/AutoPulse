@@ -1,0 +1,94 @@
+FROM python:3.11-slim as base
+# FROM balenalib/raspberrypi3-debian:latest as base
+
+WORKDIR /usr/src/app
+
+ENV PYTHONUNBUFFERED=1 \
+    # prevents python creating .pyc files
+    # PYTHONDONTWRITEBYTECODE=1 \
+    \
+    # pip
+    PIP_NO_CACHE_DIR=off \
+    # PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PIP_DEFAULT_TIMEOUT=100 \
+    CARGO_NET_GIT_FETCH_WITH_CLI=true \
+    CRYPTOGRAPHY_DONT_BUILD_RUST=1 \
+    \
+    # poetry
+    # https://python-poetry.org/docs/configuration/#using-environment-variables
+    # make poetry install to this location
+    POETRY_HOME="/opt/poetry" \
+    # make poetry create the virtual environment in the project's root
+    # it gets named `.venv`
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    # do not ask any interactive question
+    POETRY_NO_INTERACTION=1 \
+    BUILD_PATH="/build" \
+    VENV_PATH="/opt/venv"
+
+# RUN apt-get update && \
+    # apt-get upgrade -y && \
+    # apt-get install -y git tini build-essential libssl-dev openssl libffi-dev python3-dev gcc meson rustc libatlas-base-dev ffmpeg libopenjp2-7 cargo musl-dev poppler-utils tcl-dev tk-dev
+
+# RUN rustup self uninstall
+# RUN apt-get remove -y rustc cargo
+
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    rm -f /etc/apt/apt.conf.d/docker-clean \
+    && apt-get update \
+    && apt-get -y --no-install-recommends install \
+        git curl tini build-essential gcc cmake libcap-dev python3-dev libatlas-base-dev ffmpeg libopenjp2-7 tcl-dev tk-dev
+        # git curl tini libatlas-base-dev ffmpeg libopenjp2-7 poppler-utils tcl-dev tk-dev
+
+# prepend poetry, venv and pipx to path
+ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:/root/.local/bin:$PATH"
+
+RUN python3 -m venv $VENV_PATH
+RUN python3 -m pip install --upgrade pip
+# RUN python3 -m pip install pipx && \
+    # python3 -m pipx ensurepath
+
+# RUN apt-get update && \
+#     apt-get upgrade -y && \
+# 	apt-get install -y tini libcamera-dev libcamera-tools libcamera-v4l2 v4l-utils gcc meson libffi-dev rustc
+
+# RUN install_packages \
+#     libcamera-dev \
+#     libcamera-apps-lite \
+#     python3-venv \
+#     v4l-utils \
+# 	libffi-dev \
+# 	openssl-dev \
+# 	gcc \
+# 	tini
+
+FROM base as build
+
+CMD ["/bin/bash"]
+
+# RUN pip install cryptography<=3.2.4
+# RUN pip install cryptography==41.0.3
+# RUN pip install poetry==1.6.1
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+
+# RUN poetry --version
+# # RUN python3 -m venv $POETRY_HOME
+# # RUN $POETRY_HOME/bin/pip install poetry==1.2.0 && \
+# # $POETRY_HOME/bin/poetry --version
+
+# WORKDIR $BUILD_PATH
+
+# COPY poetry.lock poetry.lock
+# COPY pyproject.toml pyproject.toml
+# RUN $POETRY_HOME/bin/poetry install
+
+
+# FROM base as runtime
+
+# COPY --from=build $BUILD_PATH $BUILD_PATH
+# COPY ./snapper /app/snapper
+# WORKDIR /app
+
+# CMD [ "hypercorn", "-b", "0.0.0.0:5000", "snapper.main:app" ]

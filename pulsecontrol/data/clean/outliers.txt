@@ -1,0 +1,60 @@
+name: 0.001
+DR
+Empty DataFrame
+Columns: [movement, measured]
+Index: []
+SB
+Empty DataFrame
+Columns: [movement, measured]
+Index: []
+name: 0.005
+DR
+Empty DataFrame
+Columns: [movement, measured]
+Index: []
+SB
+Empty DataFrame
+Columns: [movement, measured]
+Index: []
+name: 0.01
+DR
+     movement  measured
+276      0.01      40.0     # implausible
+SB
+Empty DataFrame
+Columns: [movement, measured]
+Index: []
+name: 0.05
+DR
+     movement  measured 
+190      0.05       5.0     # implausible    
+355      0.05      30.0     # plausible
+364      0.05      35.0     # plausible
+SB
+     movement  measured
+106     75.35      35.0     # plausible
+name: 0.1
+DR
+    movement  measured
+94       0.1      85.0      # plausible
+SB
+Empty DataFrame
+Columns: [movement, measured]
+Index: []
+name: 0.5
+DR
+    movement  measured
+36       0.5     475.0      # plausible
+SB
+    movement  measured  
+4       72.5     465.0      # plausible
+9       75.0     555.0      # plausible
+21      81.0     475.0
+name: 1.0
+DR
+    movement  measured
+18         1     970.0      # plausible
+SB  
+Empty DataFrame
+Columns: [movement, measured]
+Index: []

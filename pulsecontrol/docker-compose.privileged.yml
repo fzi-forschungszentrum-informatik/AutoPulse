@@ -1,0 +1,9 @@
+version: "4"
+
+services:
+  snapper:
+    build: .
+    restart: always
+    privileged: true   # surefire way to make the camera work, try out all devices to see if that makes this unncecessary
+    volumes:
+      - ./out:/out
