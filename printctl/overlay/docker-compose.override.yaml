@@ -1,0 +1,46 @@
+services:
+  moonraker:
+    labels:
+      # Insecure endpoint
+      traefik.http.routers.moonraker.service: moonraker
+      # Secure endpoint
+      traefik.http.services.moonraker-ssl.loadbalancer.server.port: 7125
+      traefik.http.routers.moonraker-ssl.service: moonraker-ssl
+      traefik.http.routers.moonraker-ssl.rule: PathRegexp(`^/(websocket|printer|api|access|machine|server)`)
+      traefik.http.routers.moonraker-ssl.entrypoints: websecure
+      traefik.http.routers.moonraker-ssl.tls: true
+      # Middleware
+      traefik.http.routers.moonraker.middlewares: auth
+      traefik.http.routers.moonraker-ssl.middlewares: auth
+      traefik.http.middlewares.auth.basicauth.users: ${PI_USER_PASS}
+
+  mainsail:
+    labels:
+      traefik.http.routers.mainsail.service: mainsail
+      # SSL endpoint
+      traefik.http.services.mainsail-ssl.loadbalancer.server.port: 80
+      traefik.http.routers.mainsail-ssl.service: mainsail-ssl
+      traefik.http.routers.mainsail-ssl.entrypoints: websecure
+      traefik.http.routers.mainsail-ssl.rule: PathPrefix(`/`)
+      traefik.http.routers.mainsail-ssl.tls: true
+      # Middleware
+      traefik.http.routers.mainsail.middlewares: auth
+      traefik.http.routers.mainsail-ssl.middlewares: auth
+      traefik.http.middlewares.auth.basicauth.users: ${PI_USER_PASS}
+
+  ## Loadbalancer/Proxy
+  traefik:
+    command:
+      - "--accesslog"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.encodequerysemicolons=true"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.websecure.http.encodequerysemicolons=true"
+      # tls certificate files
+      - "--providers.file.filename=/opt/ssl/tls.yml"
+    ports:
+      - "443:443"
+    volumes:
+      - "./ssl:/opt/ssl"
