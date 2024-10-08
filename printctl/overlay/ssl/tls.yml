@@ -1,0 +1,6 @@
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /opt/ssl/default.crt
+        keyFile: /opt/ssl/default.key

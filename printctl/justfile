@@ -1,0 +1,39 @@
+set dotenv-load := true
+set dotenv-path := ".env"
+
+
+########
+# Init #
+########
+
+init:
+  @echo 'Cloning the repository'
+  git clone git@github.com:mkuf/prind.git prind
+  @echo 'Adding our overrides'
+  #rm prind/docker-compose.override.yaml
+  cp -a overlay/. prind/
+  @echo 'Generating user password for the API and the Webinterface...'
+  echo -n 'PI_USER_PASS=' > prind/.env
+  echo $(htpasswd -nB pi) | sed -e s/\\$/\\$\\$/g >> prind/.env
+  @echo 'Done. Start the stack with `docker compose -f docker-compose.ssl.yaml --profile mainsail up -d`, or use `just start`'
+
+start:
+  @echo 'Starting the stack'
+  cd prind; docker compose -f docker-compose.ssl.yaml --profile mainsail up -d
+
+
+#######
+# API #
+#######
+
+create-user password:
+  @echo 'Creating a user with the specified password'
+  curl -k -X POST -H "Content-Type: application/json" -d '{"username":"autopulse","password":"{{ password }}"}' "https://$DOMAIN/access/user"
+
+get-api-key:
+  @echo 'Retrieving the API key'
+  curl -k -X GET https://$DOMAIN/access/api_key
+
+test-with-key key:
+  @echo 'Testing the API key'
+  curl -k -X GET https://$DOMAIN/server/info -H "X-Api-Key: {{ key }}"
