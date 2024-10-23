@@ -12,25 +12,27 @@ from pulsecontrol.helpers import Rectangle, Point2D
 from pulsecontrol.strategies.camera import CameraStrategies
 from pulsecontrol.strategies.camera.probe_camera import ProbeCamera
 from pulsecontrol.strategies.control.moonraker import Moonraker
-from pulsecontrol.strategies.dut.chip_whisperer import Whisperer
+from pulsecontrol.strategies.dut.bam_attack import BamAttack
+from pulsecontrol.strategies.dut.esp32 import EspAttack
 from pulsecontrol.strategies.integrator import Integrator
+from pulsecontrol.strategies.movement import MovementError
 from pulsecontrol.strategies.movement.fix_point import FixPoint
 from pulsecontrol.strategies.movement.gaussian import Gaussian
 from pulsecontrol.strategies.movement.grid import Grid
 from pulsecontrol.strategies.movement.http_wrapper import HttpWrapper as MovementWrapper
-
-from src.pulsecontrol.helpers.results import AttackResults
-from src.pulsecontrol.strategies.injector.chip_shouter import OverheatException
-
-DEBUG = False
+from pulsecontrol.helpers.results import AttackResults
+from pulsecontrol.strategies.injector.chip_shouter import OverheatException
 
 
 @dataclass
 class TmpStore:
+    # Offset for movements, measured from chip surface to tip of probe
+    movement_offset: float | None = 20
     chip_position: Rectangle | None = None
     abs_chip_position: Point2D | None = None
 
     def reset(self):
+        self.movement_offset = None
         self.chip_position = None
         self.abs_chip_position = None
 
@@ -39,6 +41,7 @@ class SetupState(Enum):
     """
     The state the setup is in
     """
+
     NOT_READY = -1
     FINDING_CHIP = 0
     WAITING_PROBE_STOW = 1
@@ -47,9 +50,8 @@ class SetupState(Enum):
 
 
 @dataclass(kw_only=True)
-class Bam(Integrator):
+class AdvancedAttacker(Integrator):
     # Cameras
-    # They are the only devices that should be on the other PI
     probe_camera: ProbeCamera
     pcb_camera: CameraStrategies
 
@@ -59,13 +61,11 @@ class Bam(Integrator):
     # Movement
     movement_strategy: FixPoint | Gaussian | Grid | MovementWrapper
 
-    # Basic Uart interface
-    interface: Whisperer
-    # # Logging tool
-    # file_logger: FileLogger
+    # Attack implementation and interaction with the DUT
+    attack: EspAttack | BamAttack
 
-    chip_position: tuple[np.ndarray, np.ndarray, float] = field(init=False)
-    probe_offset_xy: Point2D = field(init=False)
+    chip_position: tuple[np.ndarray, np.ndarray, float] | None = None
+    probe_offset_xy: Point2D | None = None
 
     # Position of the touch probe in relation to the chip-shouter probe
     touch_position: Point2D = field(default_factory=lambda: Point2D(-20.6, -30.7))
@@ -74,11 +74,11 @@ class Bam(Integrator):
     glitch_height: float
     # Height difference between the probe and the BLTouch device
     probe_height: float
+    # Absolute height of chip surface
+    chip_surface_height: float | None = None
 
-    _attack_date: str = field(
-        default_factory=lambda: datetime.now().strftime("%Y-%m-%dT%H%M%S")
-    )
-    _out_path: Path = field(init=False)
+    _attack_date: str = field(default_factory=lambda: datetime.now().strftime("%Y-%m-%dT%H%M%S"))
+    _out_path: Path = field(default_factory=Path)
 
     state: SetupState = SetupState.NOT_READY
     temp_store: TmpStore = field(default_factory=TmpStore)
@@ -86,14 +86,74 @@ class Bam(Integrator):
     def __post_init__(self):
         self._out_path = Path("results", self._attack_date)
         self._out_path.mkdir(parents=True, exist_ok=False)
+        # Height of probe when moving onto the chip to avoid hitting cables etc.
+        self.temp_store.movement_offset = 15
+
+    def start(
+        self,
+        skip_init: bool = False,
+        target_area: Rectangle | None = None,
+        chip_surface_height: float | None = None,
+    ):
+        """
+        Sets AutoPulse up for the attack.
+
+        Args:
+            skip_init: Skips image recognition of the chip, probe centering, and homing (if not required) when set
+                to true. This option requires the arguments target_chip_position and printer_height to be specified.
+            target_area: The targeted position for the attack. This value can be modified, to target only
+                specific areas on the chip by modifying the center, width and height.
+            chip_surface_height: The absolute height of the chip surface
+        """
+
+        if self.state != SetupState.NOT_READY:
+            raise ValueError("Device in the wrong state, something went wrong %s", self.state)
+        if skip_init:
+            if not (target_area and chip_surface_height):
+                raise ValueError(
+                    "Target chip position and printer height must be provided when using skip_init"
+                )
+
+            # Home printer if necessary
+            try:
+                self.printer.move_rel(z=0.01)
+                self.printer.move_rel(z=-0.01)
+            except MovementError:
+                self.printer.home()
+
+            x_pos = target_area[0][0]
+            y_pos = target_area[0][1]
+            self.temp_store.abs_chip_position = Point2D(x_pos, y_pos)
+            self.chip_position = (
+                np.array(target_area[0]),
+                np.array(target_area[1]),
+                target_area[2],
+            )
+            self.chip_surface_height = chip_surface_height
+
+            if not (x_pos, y_pos) == self.printer.query_position()[0:2]:
+                movement_height = (
+                    chip_surface_height + self.probe_height + self.temp_store.movement_offset
+                )
+                self.printer.move_to(movement_height)
+                self.printer.move_to(x_pos, y_pos)
+
+        else:
+            self.survey_position()
+            # Gets the probe offset and adjusts the final chip position by that amount
+            self.finalize_setup()
+
+        self.state = SetupState.WAITING_PROBE_STOW
+        self.log.info(
+            "=====================================\n"
+            "Tilt the BLTouch out of the way!\n"
+            "Then call /continue to start the attack.\n"
+            "====================================="
+        )
 
     def continue_experiment(self):
-        #######################
-        # Start with the attack
         # move just over the chip
-        self.printer.move_to(z=self.glitch_height)
-        self.printer.move_rel(z=-self.probe_height)
-
+        self.printer.move_to(z=(self.chip_surface_height + self.glitch_height))
         successes: list[AttackResults] = []
         # Test Loop
         at_position = 0
@@ -102,10 +162,9 @@ class Bam(Integrator):
             while True and not self._stop_request:
                 while True and not self._stop_request:
                     # The interface has to move on the first call
-                    next_chip_coordinates = Point2D(0., 0.)
+                    next_chip_coordinates = Point2D(0.0, 0.0)
                     world_coords = (0, 0)
-                    if first_loop or self.interface.move():
-                        at_position = 0
+                    if first_loop or self.attack.move():
                         try:
                             next_chip_coordinates: Point2D = next(self.movement_strategy)
                             self.log.info(f"Next coordinates: {next_chip_coordinates:.3f}")
@@ -114,40 +173,33 @@ class Bam(Integrator):
                             break
 
                         world_coords: tuple[float, float] = tuple(
-                            self.chip_point_to_world(
-                                np.asarray(next_chip_coordinates.to_tuple())
-                            )
+                            self.chip_point_to_world(np.asarray(next_chip_coordinates.to_tuple()))
                         )
                         self.printer.move_to(*world_coords)
-
-                    at_position += 1
-                    self.log.info("I'm at position %s", at_position)
+                        at_position = at_position + 1
+                        first_loop = False
+                        self.log.info("I'm at position %s", at_position)
 
                     # the chipwhisperer doing the attacking
                     self.attack_with_wiggle()
                     # getting results
-                    successes.append(AttackResults(next_chip_coordinates.to_tuple(), world_coords, at_position,
-                                                   results=self.interface.check_success()))
+                    successes.append(
+                        AttackResults(
+                            next_chip_coordinates.to_tuple(),
+                            world_coords,
+                            at_position,
+                            results=self.attack.check_results(),
+                        )
+                    )
+                at_position = 0
                 self.movement_strategy.reset()
-                self.interface.update()
+                self.attack.update()
         finally:
             with open(Path(self._out_path, "glitches.json"), "w") as results:
                 json.dump(successes, results, indent=2, default=asdict)
 
             self.reset()
             self.log.info("Attack finished")
-
-    def start(self):
-        if self.state != SetupState.NOT_READY:
-            raise ValueError("Device in the wrong state, something went wrong %s", self.state)
-        self.survey_position()
-        # Gets the probe offset and adjusts the final chip position by that amount
-        self.finalize_setup()
-        self.state = SetupState.WAITING_PROBE_STOW
-        self.log.info("=====================================")
-        self.log.info("Tilt the BLTouch out of the way!")
-        self.log.info("Then call /continue to start the attack.")
-        self.log.info("=====================================")
 
     def reset(self):
         self.state = SetupState.NOT_READY
@@ -175,9 +227,7 @@ class Bam(Integrator):
 
         # adjust (get) to the offset between the probe and the probe mount port in the XY plane
         self.printer.move_to(x=10, y=0, speed=3000)
-        self.printer.move_to(
-            x=2, z=self.probe_camera.get_focus().at, speed=1000
-        )
+        self.printer.move_to(x=2, z=self.probe_camera.get_focus().at, speed=1000)
         # Don't set the offset yet, other coordinates will get more complicated otherwise
         # Turn on the light
         self.printer.send_gcode("SET_LED LED=probe_led WHITE=1")
@@ -191,24 +241,44 @@ class Bam(Integrator):
     def get_rectangle(self, autofocus: bool) -> Rectangle:
         self.pcb_camera.set_autofocus(autofocus)
         # Turn on light
+        self.printer.send_gcode("SET_LED LED=chip_led WHITE=0.1")
+        rectangles = None
         for _ in range(3):
             try:
                 rectangles = next(self.pcb_camera.get_coordinate())
             except StopIteration:
                 ...
             else:
-                return rectangles
+                break
+        self.printer.send_gcode("SET_LED LED=chip_led WHITE=0")
+        if rectangles is not None:
+            return rectangles
         raise ValueError("Couldn't find rectangle")
 
-    def calculate_chip_offset(self, rectangle_center: Point2D) -> Point2D:
+    def calculate_chip_offset(
+        self, rectangle_center: Point2D, distance_factor: float = 1.0
+    ) -> Point2D:
+        """
+        Calculate the distance to the chip in the XY plane.
+        The `distance_factor` is required during the first phase, because the z-distance to the chip is unknown,
+        but always less than the calibrated value at that point.
+
+        Args:
+            rectangle_center: The center of the chip in the image.
+            distance_factor: The factor to multiply the distance with.
+
+        Returns:
+            The distance to the chip in the XY plane
+
+        """
         self.log.info("Converting location: %s", rectangle_center)
-        non_normalized_distance = (
-                rectangle_center - self.pcb_camera.get_resolution() / 2
-        )
+        non_normalized_distance = rectangle_center - self.pcb_camera.get_resolution() / 2
         distance = self.pcb_camera.normalize_distance(non_normalized_distance)
+        factored = distance * distance_factor
         self.log.info("non_normalized_distance: %s", non_normalized_distance)
         self.log.info("distance: %s", distance)
-        return distance
+        self.log.info("factored distance: %s", factored)
+        return factored
 
     def chip_point_to_world(self, point: np.ndarray) -> tuple[float, float]:
         """
@@ -249,30 +319,29 @@ class Bam(Integrator):
         # then doing the edge detection again.
         # For this to work, the z axis needs to be homed to the height of the chip
         center = self.get_rectangle(True)[0]
-        self.log.info(f"Rectangle for the approximate location: {center}")
-        distance = self.calculate_chip_offset(Point2D(*center))
+        distance = self.calculate_chip_offset(Point2D(*center), 0.655)
 
         # move the touch probe to the position of the probe
-        self.printer.move_rel(
-            *(self.pcb_camera.get_camera_position() - self.touch_position)
-        )
+        self.printer.move_rel(*(self.pcb_camera.get_camera_position() - self.touch_position))
 
         # move the touch probe to the approximate chip position
         self.printer.move_rel(*distance)
 
         height = self.printer.probe()
         self.log.info(f"Probed chip height: {height:.2f}")
-        # The offset contains the offset from the print config as well, so we need to add that
+        # Default offset between the probe and the BLTouch is 2.4mm
+        # We need to set this here, because we override the offset from the `printer.cfg` with this.
         height -= 2.4
+
+        # Set the offset
+        # This overrides the default 0 position of the system.
+        # Everything is relative to the height of the chip now
         self.printer.add_offset(z_offset=-height)
 
         # Move camera back over chip, centered this time and with the correct distance
-        self.printer.move_rel(
-            *(self.touch_position - self.pcb_camera.get_camera_position())
-        )
+        self.printer.move_rel(*(self.touch_position - self.pcb_camera.get_camera_position()))
         self.printer.move_to(z=self.pcb_camera.get_focus().at)
         # Use autofocus, we don't really need fixed focus at this wide of an angle
-        # Found: ((1187.474609375, 2292.072509765625), (317.99072265625, 309.04046630859375), 0.9270352125167847)
         chip_position = self.get_rectangle(True)
         self.log.info(f"Found final chip position: {chip_position}")
         with open(Path(self._out_path, "rectangle.json"), "w") as results:
@@ -281,7 +350,6 @@ class Bam(Integrator):
         return chip_position
 
     def find_probe_center(self) -> Point2D:
-        self.interface.wait_for_probe_attachment()
         # Calculate the probe offset
         # Moves the printer, updates the offset value
         sleep(5)
@@ -319,7 +387,6 @@ class Bam(Integrator):
 
         # Add probe offset
         # Different direction, because the camera is mounted upside down
-        # TODO: -/+ ?
         self.temp_store.abs_chip_position -= self.probe_offset_xy
 
         # Calculate the chip position and size in world coordinates, including the probe offset
@@ -332,6 +399,7 @@ class Bam(Integrator):
         self.log.info(f"Final chip rectangle: {self.chip_position}")
 
         self.printer.move_to(*self.temp_store.abs_chip_position)
+
         self.printer.move_to(z=10)
 
         self.state = SetupState.READY
@@ -339,7 +407,7 @@ class Bam(Integrator):
     @retry(OverheatException, tries=3, delay=1, backoff=2)
     def attack_with_wiggle(self):
         try:
-            self.interface.start()
+            self.attack.start()
         except OverheatException:
             self.log.error("Overheat detected, resetting")
             self.sleep_and_wiggle()
