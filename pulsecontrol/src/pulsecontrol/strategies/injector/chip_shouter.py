@@ -87,6 +87,9 @@ class ChipShouter(InjectorStrategy, HasLogger):
         if isinstance(self.voltage, Voltage):
             self.voltage.update(self.chipshouter)
 
+    def get_faults(self):
+        return self.chipshouter.faults_current
+
     def init_shouter(self):
         self.log.info("Chipshouter init")
         # self.chipshouter.voltage = self.voltage

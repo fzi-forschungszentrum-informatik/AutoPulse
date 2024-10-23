@@ -40,16 +40,19 @@ chip-image = { call = "scripts.images.take_undistorted:take" }
 [tool.rye]
 managed = true
 dev-dependencies = [
-  "pre-commit>=3.7.0",
-  "pytest>=8.1.1",
-  "matplotlib>=3.8.3",
-  "requests-mock>=1.12.1",
-  "pytest-mock>=3.14.0",
-  "ruff>=0.3.5",
-  "seaborn>=0.13.2",
-  "pandas>=2.2.1",
-  "scipy>=1.13.0",
-  "bandit>=1.7.8",
+    "pre-commit>=3.7.0",
+    "pytest>=8.1.1",
+    "matplotlib>=3.8.3",
+    "requests-mock>=1.12.1",
+    "pytest-mock>=3.14.0",
+    "ruff>=0.3.5",
+    "seaborn>=0.13.2",
+    "pandas>=2.2.1",
+    "scipy>=1.13.0",
+    "bandit>=1.7.8",
+    "mypy>=1.13.0",
+    "types-retry>=0.9.9.4",
+    "types-tqdm>=4.66.0.20240417",
 ]
 
 [tool.hatch.metadata]

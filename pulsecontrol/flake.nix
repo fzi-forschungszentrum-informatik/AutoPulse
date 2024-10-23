@@ -14,6 +14,7 @@
           gcc 
           libtool 
           rye 
+          ruff
           libz
           libcamera
           libGL
