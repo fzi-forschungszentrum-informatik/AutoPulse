@@ -1,0 +1,102 @@
+{
+  "touch_position": [
+    -23.056,
+    -29.076
+  ],
+  "glitch_height": 0.8,
+  "probe_height": 10,
+  "probe_camera": {
+    "index": 1,
+    "calibrated_center": [
+      1220,
+      2304
+    ],
+    "focus": {
+      "at": 22.07,
+      "lens_position": 22,
+      "pixel_size": 0.028277
+    },
+    "crop_upper_edge": [
+      900,
+      2000
+    ],
+    "crop_width": 650,
+    "probe_type": 4
+  },
+  "pcb_camera": {
+    "esp32": true,
+    "index": 0,
+    "focus": {
+      "at": 50,
+      "pixel_size": 0.0508
+    },
+    "calibration": {
+      "matrix_path": "calibration/matrix.npy",
+      "distortion_coefficients_path": "calibration/dist.npy"
+    },
+    "camera_position": [
+      -53.188,
+      2.891
+    ]
+  },
+  "printer": {
+    "endpoint": "https://csl-pi-01.fzi.de"
+  },
+  "movement_strategy": {
+    "step_x": 15,
+    "step_y": 15
+  },
+  "attack": {
+    "esp": true,
+    "move_after": 1,
+    "whisperer": {
+      "clkgen_freq": 240e6,
+      "board_on_when_reset_pin_is": true,
+      "offset": {
+        "start": 100,
+        "end": 120,
+        "step": 1
+      },
+      "chipshouter": {
+        "mode": {
+          "emode": true,
+          "hwtrig_mode": false,
+          "hwtrig_term": false
+        },
+        "voltage": {
+          "lower": 150,
+          "upper": 500
+        },
+        "com_port": "/dev/serial/by-id/usb-NewAE_ChipSHOUTER_Serial_NA4GI3AL-if00-port0",
+        "mute": false
+      },
+      "clock": {
+        "clkgen_src": "system",
+        "clkgen_mul": 25,
+        "clkgen_div": 10,
+        "adc_src": "extclk_x1",
+        "freq_ctr_src": "clkgen"
+      },
+      "trigger": {
+        "triggers": "tio2"
+      },
+      "glitch": {
+        "clk_src": "clkgen",
+        "output": "enable_only",
+        "trigger_src": "ext_single",
+        "arm_timing": "before_scope",
+        "glitch_hp": false,
+        "glitch_lp": true,
+        "repeat": {
+          "lower": 4,
+          "upper": 4
+        }
+      },
+      "io": {
+        "tio3": "serial_rx",
+        "tio4": "serial_tx",
+        "hs2": "glitch"
+      }
+    }
+  }
+}
