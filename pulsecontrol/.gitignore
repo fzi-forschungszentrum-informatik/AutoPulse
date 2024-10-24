@@ -6,10 +6,19 @@ logs/
 .ruff_cache/
 
 # Platform specific
-requirements.lock
-requirements-dev.lock
+# requirements.lock
+# requirements-dev.lock
 poetry.lock
 
 # python tools
 .ropeproject/
 /.env
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
