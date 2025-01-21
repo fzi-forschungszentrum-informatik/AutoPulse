@@ -1,0 +1,775 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="AutoPulse is an assembly guide and the control software for a DIY-EMFI testing platform">
+      
+      
+        <meta name="author" content="Maximilian Staab">
+      
+      
+        <link rel="canonical" href="https://fzi-forschungszentrum-informatik.github.io/AutoPulse/assembly/hardware/">
+      
+      
+        <link rel="prev" href="../configuration/">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.39">
+    
+    
+      
+        <title>Hardware - AutoPulse</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#build-instructions" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="AutoPulse" class="md-header__button md-logo" aria-label="AutoPulse" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AutoPulse
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Hardware
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://fzi-forschungszentrum-informatik.github.io/AutoPulse/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AutoPulse
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="AutoPulse" class="md-nav__button md-logo" aria-label="AutoPulse" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AutoPulse
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://fzi-forschungszentrum-informatik.github.io/AutoPulse/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AutoPulse
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Assembly
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Assembly
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quick-Start
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calibration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Calibration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Hardware
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Hardware
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dissabling-the-stock-hotend" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dissabling the stock hotend
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../models/README.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3D-Models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dissabling-the-stock-hotend" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dissabling the stock hotend
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="build-instructions">Build Instructions</h1>
+<p>This section will guide you through the process of assembling the hardware components and the main assembly of the AutoPulse system.</p>
+<h2 id="dissabling-the-stock-hotend">Dissabling the stock hotend</h2>
+<p>We are using parts of the stock hotend for our EMFI mount, so we need to remove the stock hotend first, if you've already installed it. If the printer is still in its stock configuration, you can skip this step, as the hotend is already removed.</p>
+<h1 id="todo-add-disassembly-instructions">TODO Add disassembly instructions</h1>
+<h2 id="emfi-mount-assembly">EMFI Mount Assembly</h2>
+<p>The EMFI mount is a simple assembly consisting of four parts: the clamp, the mounting plate, and the CR-Touch and camera extensions.
+We first need to insert the heat-set inserts into each parts.</p>
+<p>A minimum of 12 inserts are required for the assembly, but we recommend using 16 inserts for added stability and functionality.
+Take a look at the images below for reference on where to insert the inserts.
+Set your soldering iron to a temperature between 180-200°C and use a wide and short soldering tip push in the inserts.</p>
+<h3 id="mounting-clamp">Mounting Clamp</h3>
+<h4 id="parts-list">Parts List</h4>
+<ul>
+<li>6x M3x6mm SHCS</li>
+<li>4x M3 washer</li>
+<li>12x heat-set insert (minimum 10)</li>
+<li>(printed) clamp</li>
+</ul>
+<h4 id="assembly">Assembly</h4>
+<p>Install the heat-set inserts into the clamp, take a look at the refercence images for the correct mounting positions.</p>
+<p><img alt="Carriage Mount Sockets" src="img/mount/DSC00196.jpg" />
+<img alt="Mounting Plate Sockets" src="img/mount/DSC00197.jpg" />
+<img alt="CR-Touch Mount Sockets" src="img/mount/PXL_20240311_082938572.jpg" /></p>
+<h3 id="mounting-plate">Mounting Plate</h3>
+<h4 id="parts-list_1">Parts List</h4>
+<ul>
+<li>4x heat-set insert (minimum 2)</li>
+<li>(optional) 1x M3x10mm SHCS</li>
+</ul>
+<h4 id="assembly_1">Assembly</h4>
+<p>Install the heat-set inserts into the mounting plate, take a look at the refercence images for the correct mounting positions.
+The two outer inserts on the bottom of the plate are required for the PCB camera extension, the two other inserts are optional, one is for one additional screw on the PCB camera extension, the other is for the optional M3x10mm screw we use as a zip-tie anchor.</p>
+<p><img alt="Mounting Plate" src="img/mount/mounting-plate.jpg" /></p>
+<h3 id="cr-touch-extension">CR-Touch Extension</h3>
+<h4 id="models">Models</h4>
+<ul>
+<li><a href="../models/Touch-Probe/Touch-Probe-Body.step">Swivel</a></li>
+<li><a href="../models/Touch-Probe/Touch-Probe-attachment.step">Mount</a></li>
+</ul>
+<h4 id="parts-list_2">Parts List</h4>
+<ul>
+<li>5x heat-set insert</li>
+<li>2x M3x6mm SHCS</li>
+<li>3x M3x10mm SHCS</li>
+<li>1x M4x16mm SHCS</li>
+<li>4x 6x3mm Neodym Magnet</li>
+</ul>
+<h4 id="assembly_2">Assembly</h4>
+<p>Install the heat-set inserts into the CR-Touch swivel and mount, take a look at the refercence images for the correct positions.
+<img alt="CR-Touch Swivel HEAT-SET" src="img/mount/crtouch/touch_assembly_03.jpg" /></p>
+<p>Next, install the magnets into the appropriate cutouts. Make sure the magnets are aligned to attract each other, as shown in the reference image. The cutouts are tight, so no glue should be necessary to keep them in there. You might need to push them in using a screwdriver. Be carefull to not break the printed part!
+<img alt="CR-Touch Magnets 1" src="img/mount/crtouch/touch_assembly_04.jpg" />
+<img alt="CR-Touch Magnets 2" src="img/mount/crtouch/touch_assembly_05.jpg" /></p>
+<p>We are now ready to attach the swivel arm to the mounting bracket. Use the M4 screw and some elbow grease. The swivel arm has enough clearance for it to freely swing around the screw as a pivot, but the mounting bracket screw-hole is designed to be self-tapped by the M4. The clearance is designed for PLA parts, so your milage may vary if you're using a different material.
+<img alt="CR-Touch Pivot Screw" src="img/mount/crtouch/touch_assembly_07.jpg" /></p>
+<p>Now for attaching the CR-Touch. Use the M3x6mm screws to mount the probe to the swivel arm. Guide the cable through the provided hole. It's easier to keep the cable attached to the CR-Touch rather than attaching it once the probe is screwed in.
+<img alt="CR-Touch Probe Attachment" src="img/mount/crtouch/touch_assembly_10.jpg" />
+<img alt="CR-Touch Probe Attachment" src="img/mount/crtouch/touch_assembly_11.jpg" /></p>
+<p>Finally, attach the part to the mounting clamp. First insert the heat-set inserts on the front of the mounting clamp, as shown here:
+<img alt="CR-Touch Mounting Holes" src="img/mount/crtouch/touch_assembly_12.jpg" /></p>
+<p>Then attach the part to the clamp with the M3x10mm screws.
+<img alt="CR-Touch Pointing Down" src="img/mount/crtouch/touch_assembly_13.jpg" />
+You should now be able to tilt the CR-Touch probe out of the way after the initial sequence is done, which helps with clearance on some target boards.
+<img alt="CR-Touch Tilted Away" src="img/mount/crtouch/touch_assembly_14.jpg" /></p>
+<h3 id="pcb-camera-extension">PCB Camera Extension</h3>
+<h1 id="todo-add-parts-list">TODO Add parts list</h1>
+<h1 id="todo-add-assembly-instructions">TODO Add assembly instructions</h1>
+<h3 id="probe-camera">Probe Camera</h3>
+<p>For the final assembly of the probe camera, we it's best to have the Raspberry Pi already set-up, as well as all components already connected.
+We will then open up the camera view, which simplifies the final alignment of the camera.</p>
+<h1 id="todo-add-parts-list_1">TODO Add parts list</h1>
+<h1 id="todo-add-assembly-instructions_1">TODO Add assembly instructions</h1>
+<h4 id="replacing-the-stock-leveling-screws">Replacing the stock leveling screws</h4>
+<p>The default leveling screws are too large for the new probe camera module and will interfere with the movement of the carriage. We have designed a simple replacement part that is easy to print and install.
+<img alt="Screws" src="img/PXL_20240311_081916589.jpg" />
+Our part uses the same threaded insert as the stock screws. Simply use a soldering iron to heat the insert, pushing it out of the stock screw, and insert it into the new part.
+We recommend to only replace the screws on the left side of the printer, as the right side is not impacted by our probe camera module.</p>
+<h2 id="assembly_3">Assembly</h2>
+<h4 id="parts-list_3">Parts List</h4>
+<ul>
+<li>6x M3x6mm SHCS</li>
+<li>4x M3 washer</li>
+<li>1x stock Creality PCB breakout board</li>
+<li>1x assembled EMFI mount</li>
+</ul>
+<h4 id="assembly_4">Assembly</h4>
+<p>Use two of the M3x6mm screws to attach the PCB breakout board to the mounting assembly.
+Place two washers each between the printed part and the PCB breakout board.
+Be careful when screwing in the screws, the mounting tabs are fragile.</p>
+<p>Line up the assembled EMFI mount with the printer carriate, then screw in the M3x6mm screws.</p>
+<h2 id="electronics">Electronics</h2>
+<p><strong>WARNING</strong>: The following steps require you to open the electronics compartment of the printer. This will void your warranty. We are not responsible for any damage caused to your printer. If you are not comfortable with these steps, please ask for help from someone who is. Keep the printer unplugged while performing these steps.</p>
+<h3 id="opening-the-electronics-compartment">Opening the electronics compartment</h3>
+<ol>
+<li>Lay the printer on its right side. Remove the screen beforehand,
+   you won't be needing it in the future.</li>
+<li>Remove the tool-drawer before trying to remove the bottom panel.</li>
+<li>Remove the 9 screws from the bottom panel.</li>
+<li>Remove the bottom panel. Carefully detach the cooling fan cable from the control board before removing the panel completely.</li>
+</ol>
+<h3 id="optional-adding-uart-support-for-the-tmc2208-stepper-drivers">(Optional) Adding UART support for the TMC2208 stepper drivers</h3>
+<p>This step is optional, but highly recommended. It will enable UART for the stepper drivers, allowing for higher accuracy and quieter operation.
+If you want to do this, follow the instructions in the <a href="#part-99999-optional-enabling-uart-for-the-tmc2208-stepper-drivers">Enabling UART for the TMC2208 Stepper Drivers</a> section, then return here.
+You can also do this step after the initial setup, but it is easier to do it now, while the electronics compartment is already open.</p>
+<h3 id="wiring">Wiring</h3>
+<ol>
+<li>Locate the heated-bed cable and thermistor cable. Both are located on the left of the board, labeled as "BED" and "BED TEM" respectively. Take a look at our <a href="img/wiring-diagram.jpg">wiring diagram</a> for reference.</li>
+<li>Use your fingers to remove the hot-glue from the heated-bed cable and the thermistor cable. Try to avoid using metal tools for removing the hot-glue, as you might damage the PCB.</li>
+<li>Unscrew the terminals of the heated-bed cable and the thermistor cable. You can use a flat-head screwdriver for this.</li>
+<li>Insert the cables for the probe-LEDs into the terminals previously used for the heated-bed.
+   Keep the polarity in mind.
+   Test this before before closing the electronics compartment.</li>
+<li>Use the cable-clip at the top of the aluminium extrusion to secure LED cable.</li>
+<li>(Optional) While the panel is open, remove the bottom cable clip which usually holds the rainbow cable. Secure the end with the tape that's already holding it down.</li>
+<li>Note down the exact chip on the control board. We will need this in the future. It should be one of either <code>STM32F401</code> or <code>STM32F103</code>.</li>
+<li>Replace the bottom panel and secure it with the 9 screws. Keep in mind to reattach the cooling fan cable to the control board.</li>
+</ol>
+<h3 id="raspberry-pi">Raspberry Pi</h3>
+<h4 id="power-supply">Power Supply</h4>
+<p>We are using the official Raspberry Pi power supply, but it is entirely possible to use one of these <a href="variable power supplies">img/variable-power-supply.jpg</a> instead. The official power supply is rated at 5.1V and 5.0A. The power supply should be connected to the USB-C port on the Raspberry Pi.</p>
+<p>As an alternative, we have also tested the Raspberry Pi with a cheap variable power supply.
+This has the advantage of being able to power the Pi with the 24V power supply of the printer, requiring one less power outlet.
+The power supply should be connected to the GPIO pins on the Raspberry Pi.
+The positive wire should be connected to pin 2 and the negative wire should be connected to pin 6.</p>
+<h4 id="csi-camera-cables">CSI Camera Cables</h4>
+<p>Next, you should connect the CSI camera cables to the Raspberry Pi.
+The camera cables should be connected to the CSI port on the Raspberry Pi.
+The camera cables should be connected to the Raspberry Pi with the black side facing away from the Ethernet port.
+The order of the cameras doesn't matter, just route them as fits best with the physical layout of your components.
+You can verify both cameras work by running <code>libcamera-hello -n</code> in the command line.
+There will be two outputs of <code>Registered camera</code>, each providing a path to <code>/dev/media{0,1,2,3}</code>.
+All cameras should be detected out of the box when using the default raspbian image.
+Try rebooting you can't connect to the cameras.
+Never unplug the cameras while the Raspberry Pi is powered on.
+The metal contacts on the ribbon cable can short something during unplugging, which could damage the Raspberry Pi or the Cameras.</p>
+<h4 id="connecting-the-raspberry-pi-to-the-printer">Connecting the Raspberry Pi to the Printer</h4>
+<p>Use a USB-A to USB-C cable to connect the Raspberry Pi to the printer. The USB-A side should be connected to the Raspberry Pi and the USB-C side should be connected to the printer.</p>
+<h2 id="installing-klipper">Installing Klipper</h2>
+<h3 id="part-0-installing-docker">Part 0: Installing Docker</h3>
+<p>We like to use the <code>printd</code> service to manage the <code>klipper</code> configuration. This will use marginally more resources than a direct deployment of klipper, but comes with advantage of simplified dependency management simple installation.
+It does require a working docker installation, so we will start by setting that up.</p>
+<p>To do this, follow the instructions at <a href="https://docs.docker.com/engine/install/debian/#install-using-the-repository">docs.docker.com/engine/install/debian</a>.
+Then add your user to the <code>docker</code> group with <code>sudo usermod -aG docker $USER</code>.
+You will need to log out and back in for this change to take effect.</p>
+<h3 id="part-1-setting-up-printd">Part 1: Setting up <code>printd</code></h3>
+<ol>
+<li>Clone the repository with <code>git clone https://github.com/mkuf/prind.git</code>.</li>
+<li>Move into the directory with <code>cd printd</code>.</li>
+<li>Register the alias for simplifying the following commands. Run <code>alias pmake="docker compose -f docker-compose.extra.make.yaml run --rm make"</code>.</li>
+<li>Run <code>pmake menuconfig</code>.
+   Use the arrow keys to navigate the TUI, use the space bar to select and deselect options, and use the enter key to enter sub-menus.</li>
+<li>Select <code>Enable extra low-level configuration options</code></li>
+<li>Select <code>STMMicroelectronics STM32</code> as your microcontroller architecture.</li>
+<li>The processor model is the model number you have noted down in the wiring step.</li>
+<li>If you have the <code>STM32F401</code>, select the <code>64KiB bootloader</code> offset. If you have the <code>STM32F103</code>, select the <code>28KiB bootloader</code> offset.</li>
+<li>Press <code>q</code> to exit the menu and <code>y</code> to save the configuration.</li>
+<li>Run <code>pmake</code> to build the firmware.</li>
+<li>The finished firmware will be at <code>out/klipper.bin</code>.</li>
+</ol>
+<h4 id="copying-the-configuration">Copying the configuration</h4>
+<p>The default location for the <code>printer.cfg</code> in <code>printd</code> is ... [TODO]: # Add path, update this description</p>
+<h2 id="part-2-flashing-the-mainboard">Part 2: Flashing the Mainboard</h2>
+<ol>
+<li>You should already have the <code>klipper.bin</code> from the previous step.</li>
+<li>If you have the <code>STM32F103</code>, move this file to the root of the SD-card that came with the printer.</li>
+<li>If you have the <code>STM32F401</code>, create a subfolder called <code>STM32F4_UPDATE</code> and move the file there.</li>
+<li>With the printer turned off, insert the SD-card into the printer, then turn the printer on.</li>
+<li>You'll get no feedback as to if you've been successful, but the printer should now be running Klipper.</li>
+</ol>
+<p><strong>Note</strong> If you want to change some settings and flash the firmware again, re-name the <code>*.bin</code> to something else. The MCU will not flash the same firmware file again if it has the same name.</p>
+<p>Use these images to compare with your settings:</p>
+<p><img alt="STM32F401" src="img/klipper/firmware401.jpg" />
+<img alt="STM32F103" src="img/klipper/firmware103.jpg" /></p>
+<p><strong>Note</strong> You are now ready to start using klipper. The next steps are optional, but highly recommended.</p>
+<h2 id="part-99999-optional-enabling-uart-for-the-tmc2208-stepper-drivers">Part 99999: (Optional) Enabling UART for the TMC2208 Stepper Drivers</h2>
+<p>The default configuration of the steppers on the Ender 3 S1 is tuned for fast and silent movements during prints. We do not care about speed or noise, we want the highest possible accuracy. To achieve this, we will need to enable UART for the TMC2208 stepper drivers.</p>
+<h3 id="removing-the-control-board">Removing the control board</h3>
+<ol>
+<li>Take a picture of the control board, to make reassembly easier.</li>
+<li>Remove all hot-glue from the connectors, then</li>
+<li>Disconnect all cables from the board.</li>
+<li>Remove the five screws holding it in place.</li>
+<li>Remove the board from the printer.</li>
+</ol>
+<h3 id="soldering-the-jumpers">Soldering the jumpers</h3>
+<ol>
+<li>Orient the board in such a way that the USB and SD-card slots are on the right side.</li>
+<li>Locate the stepper drivers, they are on the top of the board, with each having a small heat sink glued to it.</li>
+<li>Underneath each heat sink are multiple resistors in a row. One of these resistor pads is unpopulated, and this is where we will solder the jumper.</li>
+<li>The upper pad itself is connected to the resistor to the left of it, which in turn is connected to the UART pin of the stepper driver.</li>
+<li>We will use this empty pad to solder the jumper, because it gives us a larger target for our soldering iron.</li>
+<li>Solder a Jumper to the upper pad of the three leftmost stepper drivers. We don't care about the extruder stepper driver, as it is not used in our device.</li>
+<li>It's possible to use the extruder stepper as a backup, if one of the other steppers is damaged during our modifications.</li>
+<li>Either crimp a dupont connector to the other end of the jumper, or solder it directly to one of the unused pins for the touch screen. Take a look at the pictures for reference.</li>
+<li>Update the <code>printer.cfg</code> with the correct UART pins. Uncomment the <code>[tmc2209 stepper_{x|y|z&gt;}</code> section if you used the same pins as in the pictures.</li>
+<li>Pins <code>PB2</code>, <code>PB1</code> and <code>PA2</code> of the <code>STM32F401</code> are connected to the empty touchscreen-connector on the control board. We chose to use those because of them being in a straight, direct line, making it easier to attach a dupont connector to them.</li>
+<li>Take a look at the data sheet of your chip if you want to use other pins. Simply use a multimeter to measure for continuity between the legs of the chip and the pins on the board to find the correct ones.</li>
+<li>Continue with the instructions in the <a href="#wiring">Wiring</a> section.</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 - 2025
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.525ec568.min.js"></script>
+      
+    
+  </body>
+</html>
