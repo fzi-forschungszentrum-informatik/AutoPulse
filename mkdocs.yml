@@ -9,7 +9,10 @@ repo_name: AutoPulse
 repo_url: https://fzi-forschungszentrum-informatik.github.io/AutoPulse/
 edit_uri: "https://fzi-forschungszentrum-informatik.github.io/AutoPulse/"
 
-copyright: Copyright &copy; 2024 - 2025
+copyright: >
+  Copyright &copy; 2024 - 2025 FZI Forschungszentrum Informatik –
+  <a href="https://www.fzi.de/impressum">Impressum</a> –
+  <a href="#__consent">Change cookie settings</a>
 
 theme:
   name: "material"
