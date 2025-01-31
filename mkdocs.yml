@@ -8,6 +8,8 @@ site_url: https://fzi-forschungszentrum-informatik.github.io/AutoPulse/
 repo_name: AutoPulse
 repo_url: https://fzi-forschungszentrum-informatik.github.io/AutoPulse/
 edit_uri: "https://fzi-forschungszentrum-informatik.github.io/AutoPulse/"
+docs_dir: docs
+site_dir: site
 
 copyright: >
   Copyright &copy; 2024 - 2025 FZI Forschungszentrum Informatik –
