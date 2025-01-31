@@ -20,6 +20,9 @@
   scripts.serve.exec = ''
     mkdocs serve -w docs
   '';
+  scripts.deploy.exec = ''
+    mkdocs gh-deploy
+  '';
 
   enterShell = ''
     echo "Run 'build' to run the build script"
