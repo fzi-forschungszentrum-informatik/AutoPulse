@@ -1,0 +1,93 @@
+#Project Information
+site_name: AutoPulse
+site_description: AutoPulse is an assembly guide and the control software for a DIY-EMFI testing platform
+site_author: Maximilian Staab
+site_url: https://fzi-forschungszentrum-informatik.github.io/AutoPulse/
+
+# Repository
+repo_name: AutoPulse
+repo_url: https://fzi-forschungszentrum-informatik.github.io/AutoPulse/
+edit_uri: "https://fzi-forschungszentrum-informatik.github.io/AutoPulse/"
+docs_dir: docs
+site_dir: site
+
+copyright: >
+  Copyright &copy; 2024 - 2025 FZI Forschungszentrum Informatik –
+  <a href="https://www.fzi.de/impressum">Impressum</a> –
+  <a href="#__consent">Change cookie settings</a>
+
+theme:
+  name: "material"
+  font: false
+  features:
+    - navigation.footer
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to light mode
+
+markdown_extensions:
+  - def_list
+  - footnotes
+  - attr_list
+  - md_in_html
+
+plugins:
+  - search
+  - autorefs
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            docstring_section_style: spacy
+            show_source: False
+            merge_init_into_class: True
+# - bibtex:
+#       bib_file: "library.bib"
+
+nav:
+  - Home: index.md
+  - Assembly:
+      - Quick-Start: assembly/README.md
+      - Calibration: assembly/calibration/README.md
+      - Configuration: assembly/configuration/README.md
+      - Hardware: assembly/hardware/README.md
+      - 3D-Models: assembly/models/README.md
+
+extra:
+  consent:
+    title: Cookie consent
+    description: >-
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of our documentation and whether users
+      find what they're searching for. With your consent, you're helping us to
+      make our documentation better.
+    actions:
+      - manage
+      - accept
+      - reject
+    cookies:
+      analytics:
+        name: Google Analytics
+        checked: false
+      github:
+        name: GitHub
+        checked: false
+  social:
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/company/fzi-official
+    - icon: fontawesome/brands/xing
+      link: https://www.xing.com/companies/fziforschungszentruminformatik
+    - icon: fontawesome/brands/youtube
+      link: https://www.youtube.com/user/fzichannel
+    - icon: fontawesome/brands/github
+      link: https://github.com/fzi-forschungszentrum-informatik/

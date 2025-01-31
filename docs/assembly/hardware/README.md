@@ -6,7 +6,7 @@ This section will guide you through the process of assembling the hardware compo
 
 We are using parts of the stock hotend for our EMFI mount, so we need to remove the stock hotend first, if you've already installed it. If the printer is still in its stock configuration, you can skip this step, as the hotend is already removed.
 
-#TODO Add disassembly instructions
+# TODO Add disassembly instructions
 
 ## EMFI Mount Assembly
 
@@ -30,8 +30,8 @@ Set your soldering iron to a temperature between 180-200°C and use a wide and s
 
 Install the heat-set inserts into the clamp, take a look at the refercence images for the correct mounting positions.
 
-![Carriage Mount Sockets](img/mount/DSC00196.JPG)
-![Mounting Plate Sockets](img/mount/DSC00197.JPG)
+![Carriage Mount Sockets](img/mount/DSC00196.jpg)
+![Mounting Plate Sockets](img/mount/DSC00197.jpg)
 ![CR-Touch Mount Sockets](img/mount/PXL_20240311_082938572.jpg)
 
 ### Mounting Plate
@@ -46,7 +46,7 @@ Install the heat-set inserts into the clamp, take a look at the refercence image
 Install the heat-set inserts into the mounting plate, take a look at the refercence images for the correct mounting positions.
 The two outer inserts on the bottom of the plate are required for the PCB camera extension, the two other inserts are optional, one is for one additional screw on the PCB camera extension, the other is for the optional M3x10mm screw we use as a zip-tie anchor.
 
-![Mounting Plate](img/mount/mounting-plate.png)
+![Mounting Plate](img/mount/mounting-plate.jpg)
 
 ### CR-Touch Extension
 
@@ -55,14 +55,13 @@ The two outer inserts on the bottom of the plate are required for the PCB camera
 - [Swivel](../models/Touch-Probe/Touch-Probe-Body.step)
 - [Mount](../models/Touch-Probe/Touch-Probe-attachment.step)
 
-
 #### Parts List
 
 - 5x heat-set insert
 - 2x M3x6mm SHCS
 - 3x M3x10mm SHCS
 - 1x M4x16mm SHCS
-- 4x 6x3mm Neodym Magnet 
+- 4x 6x3mm Neodym Magnet
 
 #### Assembly
 
@@ -73,14 +72,14 @@ Next, install the magnets into the appropriate cutouts. Make sure the magnets ar
 ![CR-Touch Magnets 1](img/mount/crtouch/touch_assembly_04.jpg)
 ![CR-Touch Magnets 2](img/mount/crtouch/touch_assembly_05.jpg)
 
-We are now ready to attach the swivel arm to the mounting bracket. Use the M4 screw and some elbow grease. The swivel arm has enough clearance for it to freely swing around the screw as a pivot, but the mounting bracket screw-hole is designed to be self-tapped by the M4. The clearance is designed for PLA parts, so your milage may vary if you're using a different material. 
+We are now ready to attach the swivel arm to the mounting bracket. Use the M4 screw and some elbow grease. The swivel arm has enough clearance for it to freely swing around the screw as a pivot, but the mounting bracket screw-hole is designed to be self-tapped by the M4. The clearance is designed for PLA parts, so your milage may vary if you're using a different material.
 ![CR-Touch Pivot Screw](img/mount/crtouch/touch_assembly_07.jpg)
 
 Now for attaching the CR-Touch. Use the M3x6mm screws to mount the probe to the swivel arm. Guide the cable through the provided hole. It's easier to keep the cable attached to the CR-Touch rather than attaching it once the probe is screwed in.
 ![CR-Touch Probe Attachment](img/mount/crtouch/touch_assembly_10.jpg)
 ![CR-Touch Probe Attachment](img/mount/crtouch/touch_assembly_11.jpg)
 
-Finally, attach the part to the mounting clamp. First insert the heat-set inserts on the front of the mounting clamp, as shown here: 
+Finally, attach the part to the mounting clamp. First insert the heat-set inserts on the front of the mounting clamp, as shown here:
 ![CR-Touch Mounting Holes](img/mount/crtouch/touch_assembly_12.jpg)
 
 Then attach the part to the clamp with the M3x10mm screws.
@@ -88,19 +87,20 @@ Then attach the part to the clamp with the M3x10mm screws.
 You should now be able to tilt the CR-Touch probe out of the way after the initial sequence is done, which helps with clearance on some target boards.
 ![CR-Touch Tilted Away](img/mount/crtouch/touch_assembly_14.jpg)
 
-
 ### PCB Camera Extension
 
-#TODO Add parts list
-#TODO Add assembly instructions
+# TODO Add parts list
+
+# TODO Add assembly instructions
 
 ### Probe Camera
 
 For the final assembly of the probe camera, we it's best to have the Raspberry Pi already set-up, as well as all components already connected.
 We will then open up the camera view, which simplifies the final alignment of the camera.
 
-#TODO Add parts list
-#TODO Add assembly instructions
+# TODO Add parts list
+
+# TODO Add assembly instructions
 
 #### Replacing the stock leveling screws
 
@@ -146,7 +146,7 @@ You can also do this step after the initial setup, but it is easier to do it now
 
 ### Wiring
 
-1. Locate the heated-bed cable and thermistor cable. Both are located on the left of the board, labeled as "BED" and "BED TEM" respectively. Take a look at our [wiring diagram](img/wiring-diagram.png) for reference.
+1. Locate the heated-bed cable and thermistor cable. Both are located on the left of the board, labeled as "BED" and "BED TEM" respectively. Take a look at our [wiring diagram](img/wiring-diagram.jpg) for reference.
 2. Use your fingers to remove the hot-glue from the heated-bed cable and the thermistor cable. Try to avoid using metal tools for removing the hot-glue, as you might damage the PCB.
 3. Unscrew the terminals of the heated-bed cable and the thermistor cable. You can use a flat-head screwdriver for this.
 4. Insert the cables for the probe-LEDs into the terminals previously used for the heated-bed.
@@ -227,8 +227,8 @@ The default location for the `printer.cfg` in `printd` is ... [TODO]: # Add path
 
 Use these images to compare with your settings:
 
-![STM32F401](img/klipper/firmware401.png)
-![STM32F103](img/klipper/firmware103.png)
+![STM32F401](img/klipper/firmware401.jpg)
+![STM32F103](img/klipper/firmware103.jpg)
 
 **Note** You are now ready to start using klipper. The next steps are optional, but highly recommended.
 
