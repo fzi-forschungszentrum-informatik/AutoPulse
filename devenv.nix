@@ -25,13 +25,10 @@
     echo "Run 'build' to run the build script"
   '';
 
-  # https://devenv.sh/tasks/
-  # tasks = {
-  #   "myproj:setup".exec = "mytool build";
-  #   "devenv:enterShell".after = [ "myproj:setup" ];
-  # };
+  processes = {
+    serve.exec = "${config.scripts.serve.exec}";
+  };
 
-  # https://devenv.sh/pre-commit-hooks/
   pre-commit.hooks.check-yaml.enable = true;
 
   # See full reference at https://devenv.sh/reference/options/
