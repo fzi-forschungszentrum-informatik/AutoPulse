@@ -14,6 +14,8 @@ copyright: Copyright &copy; 2024 - 2025
 theme:
   name: "material"
   font: false
+  features:
+    - navigation.footer
   palette:
     # Palette toggle for light mode
     - scheme: default
@@ -55,3 +57,13 @@ nav:
       - Configuration: assembly/configuration/README.md
       - Hardware: assembly/hardware/README.md
       - 3D-Models: assembly/models/README.md
+extra:
+  social:
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/company/fzi-official
+    - icon: fontawesome/brands/xing
+      link: https://www.xing.com/companies/fziforschungszentruminformatik
+    - icon: fontawesome/brands/youtube
+      link: https://www.youtube.com/user/fzichannel
+    - icon: fontawesome/brands/github
+      link: https://github.com/fzi-forschungszentrum-informatik/
